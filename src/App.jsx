@@ -5,6 +5,7 @@ import twitterLogo from './assets/twitter-logo.svg';
 import { CONTRACT_ADDRESS, transformCharacterData } from './constants';
 import myEpicGame from './utils/MyEpicGame.json';
 import { ethers } from 'ethers';
+import Arena from './Components/Arena';
 
 // Constants
 const TWITTER_HANDLE = '_buildspace';
@@ -48,31 +49,32 @@ const App = () => {
 
   // Render Methods
   const renderContent = () => {
-    /*
-     * Scenario #1
-     */
-    if (!currentAccount) {
-      return (
-        <div className="connect-wallet-container">
-          <img
-            src="https://64.media.tumblr.com/tumblr_mbia5vdmRd1r1mkubo1_500.gifv"
-            alt="Monty Python Gif"
-          />
-          <button
-            className="cta-button connect-wallet-button"
-            onClick={connectWalletAction}
-          >
-            Connect Wallet To Get Started
-          </button>
-        </div>
-      );
-      /*
-       * Scenario #2
-       */
-    } else if (currentAccount && !characterNFT) {
-      return <SelectCharacter setCharacterNFT={setCharacterNFT} />;
-    }
-  };
+
+  if (!currentAccount) {
+    return (
+      <div className="connect-wallet-container">
+        <img
+          src="https://64.media.tumblr.com/tumblr_mbia5vdmRd1r1mkubo1_500.gifv"
+          alt="Monty Python Gif"
+        />
+        <button
+          className="cta-button connect-wallet-button"
+          onClick={connectWalletAction}
+        >
+          Connect Wallet To Get Started
+        </button>
+      </div>
+    );
+  } else if (currentAccount && !characterNFT) {
+    return <SelectCharacter setCharacterNFT={setCharacterNFT} />;	
+	/*
+	* If there is a connected wallet and characterNFT, it's time to battle!
+	*/
+  } else if (currentAccount && characterNFT) {
+    console.log("Going to the arena");
+    <Arena characterNFT={characterNFT} setCharacterNFT={setCharacterNFT} />;
+  }
+}; 
   /*
    * Implement your connectWallet method here
    */
